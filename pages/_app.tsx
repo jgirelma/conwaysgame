@@ -11,7 +11,9 @@ function App({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
       </Head>
       <ThemeProvider>
-        <Component {...pageProps} />
+        <div className="font-sans">
+          <Component {...pageProps} />
+        </div>
       </ThemeProvider>
     </>
   );

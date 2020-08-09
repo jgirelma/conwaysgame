@@ -6,24 +6,16 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from "@chakra-ui/core";
-import { Dispatch, SetStateAction } from "react";
-
-interface PropType {
-  gridSize: number;
-  setGridSize: Dispatch<SetStateAction<number>>;
-  running: boolean;
-  setRunning: Dispatch<SetStateAction<boolean>>;
-}
+import { useContext } from "react";
+import GridControllsContext from "../Contexts/GridControllsContext";
 
 const GRID_SIZE_MAX = 40;
 const GRID_SIZE_MIN = 10;
 
-export default function Navbar({
-  gridSize,
-  setGridSize,
-  running,
-  setRunning,
-}: PropType) {
+export default function Navbar() {
+  const { gridSize, setGridSize, running, setRunning, setRandomize } = useContext(
+    GridControllsContext
+  );
   return (
     <div className="flex justify-around p-4 border-b-2">
       <div className="text-2xl">Conway's Game of Life</div>
@@ -36,16 +28,16 @@ export default function Navbar({
           max={GRID_SIZE_MAX}
           value={gridSize}
           onChange={(val) => {
-            const numericalVal = parseInt(val.toString(), 10)
-            setRunning(false)
+            const numericalVal = parseInt(val.toString(), 10);
+            setRunning(false);
             if (numericalVal > GRID_SIZE_MAX) {
-              setGridSize(GRID_SIZE_MAX)
+              setGridSize(GRID_SIZE_MAX);
             } else if (numericalVal < GRID_SIZE_MIN) {
-              setGridSize(GRID_SIZE_MIN)
+              setGridSize(GRID_SIZE_MIN);
             } else {
-              setGridSize(parseInt(val.toString(), 10))}
+              setGridSize(parseInt(val.toString(), 10));
             }
-          }
+          }}
         >
           <NumberInputField />
           <NumberInputStepper>
@@ -53,7 +45,19 @@ export default function Navbar({
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
-        <Button variantColor={`${running ? 'red' : 'green'}`} onClick={() => setRunning(!running)}>{running ? "Stop" : "Start"}</Button>
+        <Button
+          variantColor={`${running ? "red" : "green"}`}
+          onClick={() => setRunning(!running)}
+        >
+          {running ? "Stop" : "Start"}
+        </Button>
+
+        <Button
+          variantColor="orange"
+          onClick={() => setRandomize(true)}
+        >
+          Randomize
+        </Button>
       </div>
     </div>
   );
